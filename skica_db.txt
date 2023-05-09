@@ -12,7 +12,7 @@
 | tipGrejanja VARCHAR(255)     |
 | ukupanBrojSoba INTEGER       |
 | ukupnoKupatila INTEGER       |
-| parking VARCHAR(50)          |
+| parking VARCHAR(50)          |  
  ------------------------------
                1|
                	|
