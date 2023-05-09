@@ -1,0 +1,5 @@
+- instalirala sve potrebno
+- napravila model gde sam ubacila odgovarajuce klase koje predstavljaju tabele
+- instalirala postman na lokalu za testiranje apija
+- u postman 'napravila' GET zahtev i ubacila link ka sajtu nekretnine.rs da vidim kako ce da mi vrati podatke
+- treba da dohvatim te podatke i da ih smestim u bazu
