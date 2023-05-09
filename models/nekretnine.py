@@ -1,4 +1,5 @@
 from db import db
+from sqlalchemy.orm import relationship
 
 class NekretnineModel(db.Model):
     __tablename__ = "nekretnina"
@@ -15,3 +16,6 @@ class NekretnineModel(db.Model):
     ukupanBrojSoba = db.Column(db.Float, nullable = False)
     ukupnoKupatila = db.Column(db.Integer)
     parking = db.Column(db.String(20))
+    
+    stanovi = relationship("StanoviModel", backref="nekretnine", uselist=False) #uselist = false znaci da je veza one-to-one
+    kuce = relationship("KuceModel", backref="nekretnine", uselist=False)
