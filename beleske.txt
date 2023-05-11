@@ -1,5 +1,26 @@
-- instalirala sve potrebno
-- napravila model gde sam ubacila odgovarajuce klase koje predstavljaju tabele
-- instalirala postman na lokalu za testiranje apija
-- u postman 'napravila' GET zahtev i ubacila link ka sajtu nekretnine.rs da vidim kako ce da mi vrati podatke
-- treba da dohvatim te podatke i da ih smestim u bazu
+1. Priprema projekta
+2. Postavljanje virtuelne okoline:
+    - instalacija venv
+    - aktiviranje virtuelnog okruzenja
+3. Instalacija potrebnih biblioteka:
+    - pip instll Flask
+    - pip install SQLAlchemy
+    - pip install Flask-SQLAlchemy
+    - pip instal beautifulsoup4
+    - pip install requests
+4. Kreiranje projektnih fajlova:
+    - app.py fajl koji sadrzi Flask aplikaciju
+    - models.py fajl koji sadrzi definicije modela za bazu
+    - crawler.py fajl koji sadrzi implementaciju web indeksera
+5. Implementacija crawler.py:
+    - pravljenje fje koja ce se povezati na web stracicu nekretnine.rs i preuzeti njen sadrzaj
+    - beautifulsoup i requests za parsiranje stranice i izdvajanje info o nekretninama
+    - cuvanje priupljenih info u bazi
+6. Definisanje modela baze podataka, models.py
+    - definisanje odgovarajucih tabela i polja za info o nekretninama
+7. Implementacija Flask aplikacije, app.py:
+    - importovanje svih potrebnih modula i kreiranje instance aplikacije
+    - povezivanje sa bazom podataka
+    - implementacija API rute za dohvatanje, pretrazivanje, kreiranje i promenu podataka nekretninama
+8. Pokretanje aplikacije:
+    - python app.py
