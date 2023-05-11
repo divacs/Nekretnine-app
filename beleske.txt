@@ -18,6 +18,8 @@
     - cuvanje priupljenih info u bazi
 6. Definisanje modela baze podataka, models.py
     - definisanje odgovarajucih tabela i polja za info o nekretninama
+    6.1. Migriranje baze
+        - pip install Flask-Migrate
 7. Implementacija Flask aplikacije, app.py:
     - importovanje svih potrebnih modula i kreiranje instance aplikacije
     - povezivanje sa bazom podataka
