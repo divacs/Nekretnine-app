@@ -1,6 +1,15 @@
-from flask_sqlalchemy import SQLAlchemy
+import pymysql
+pymysql.install_as_MySQLdb()
 
-db = SQLAlchemy()
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+from flask import Flask
+
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:sonja123@localhost/db_nekretnine' 
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
 
 class Nekretnina(db.Model):
     idNekretnine = db.Column(db.Integer, primary_key = True)
@@ -98,3 +107,5 @@ class Kuca(db.Model):
             'spratnost': self.spratnost,
             'dodatneKarakteristike': self.dodatneKarakteristike
         }
+
+migrate = Migrate(app, db)
