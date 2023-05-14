@@ -1,27 +1,20 @@
- ------------------------------          -----------------------------------
-|          NEKRETNINA          |        |                STAN               |
- ------------------------------			 -----------------------------------
-| idNekretnine (PK) INTEGER    |		| idStana (PK) INTEGER              |
-| tipNekretnine VARCHAR(255)   |1	   1| idNekretnine (FK) INTEGER         |
-| tipPonude VARCHAR(255)       |--------| sprat INTEGER                     |
-| grad VARCHAR(255)            |     	| dodatneKarakteristike VARCHAR(500)|
-| opstina VARCHAR(255)         |         -----------------------------------
-| kvadratura DECIMAL           |
-| godinaIzgradnje DATE         |
-| uknjizenost VARCHAR(50)      |
-| tipGrejanja VARCHAR(255)     |
-| ukupanBrojSoba INTEGER       |
-| ukupnoKupatila INTEGER       |
-| parking VARCHAR(50)          |  
- ------------------------------
-               1|
-               	|
-               1|
- -----------------------------------
-|                KUCA               |
- -----------------------------------
-| idKuce (PK) INTEGER               |
-| idNekretnine (FK) INTEGER         |
-| sprat INTEGER                     |
-| dodatneKarakteristike VARCHAR(500)|
- -----------------------------------
++------------------------------------+         
+|              NEKRETNINA            |       
++------------------------------------+	
+| id (PK) INTEGER                    |	
+| tipNekretnine VARCHAR(255)         |
+| tipPonude VARCHAR(255)             |
+| grad VARCHAR(255)                  |     	
+| opstina VARCHAR(255)               |      
+| kvadratura DECIMAL                 |
+| godinaIzgradnje DATE               |
+| povrsinaZemljista DECIMAL          |
+| spratnost INTEGER                  |
+| uknjizenost VARCHAR(50)            |
+| tipGrejanja VARCHAR(255)           |
+| ukupanBrojSoba INTEGER             |
+| ukupnoKupatila INTEGER             |
+| parking VARCHAR(50)                |
+| dodatneKarakteristike VARCHAR(255) |  
++------------------------------------+
+             
