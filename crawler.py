@@ -1,40 +1,73 @@
-from models import Nekretnina, Stan, Kuca
 import requests
 from bs4 import BeautifulSoup
-from models import db
+import pymysql
 
-# fja za preuzimanje sadrzaja stranie
-# koristite biblioteku requests za slanje HTTP zahteva i dobijanje HTML sadržaja.
+# Povezivanje s bazom podataka
+db = pymysql.connect(host='localhost', user='root', password='sonja123', database='db_nekretnine')
+cursor = db.cursor()
+
+# Funkcija za prikupljanje informacija o nekretninama sa zadate stranice
 def crawl_page(url):
     response = requests.get(url)
-    return response.content
+    content = response.text
+    soup = BeautifulSoup(content, 'html.parser')
+    
+    # Pretraga linkova ka oglasima nekretnina
+    links = soup.find_all('a', class_='btn-list-item')
+    
+    for link in links:
+        href = link.get('href')
+        if href:
+            # Prikupljanje informacija o nekretnini
+            id = link.get('data-id')
+            tipNekretnine = link.find('span', class_='tip_nekretnine').text.strip()
+            tipPonude = link.find('span', class_='tip_ponude').text.strip()
+            grad = link.find('span', class_='grad').text.strip()
+            opstina = link.find('span', class_='opstina').text.strip()
+            kvadratura = link.find('span', class_='kvadratura').text.strip()
+            godinaIzgradnje = link.find('span', class_='godina_izgradnje').text.strip()
+            povrsinaZemljista = link.find('span', class_='povrsina_zemljista')
+            if povrsinaZemljista:
+                povrsinaZemljista = povrsinaZemljista.text.strip()
+            spratnost = link.find('span', class_='spratnost').text.strip()
+            uknjizenost = link.find('span', class_='uknjizenost').text.strip()
+            tipGrejanja = link.find('span', class_='tip_grejanja').text.strip()
+            ukupanBrojSoba = link.find('span', class_='ukupan_broj_soba').text.strip()
+            ukupnoKupatila = link.find('span', class_='ukupno_kupatila').text.strip()
+            parking = link.find('span', class_='parking')
+            if parking:
+                parking = parking.text.strip()
+            dodatneKarakteristike = link.find('span', class_='dodatne_karakteristike')
+            if dodatneKarakteristike:
+                dodatneKarakteristike = dodatneKarakteristike.text.strip()
 
-# parsiranje HTML sadržaja stranice i izvlacenje informacije o nekretninama
-def parse_page(html_content):
-    soup = BeautifulSoup(html_content, 'html.parser')
+            # Unos podataka u bazu
+            sql = "INSERT INTO Nekretnina (id, tipNekretnine, tipPonude, grad, opstina, kvadratura, godinaIzgradnje, povrsinaZemljista, spratnost, uknjizenost, tipGrejanja, ukupanBrojSoba, ukupnoKupatila, parking, dodatneKarakteristike) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
 
-    # ovde dodajemo kod za izvlačenje informacija o nekretninama iz HTML-a stranice
-    # koristimo metode poput soup.find(), soup.find_all() i slično
-    # primer:
-    property_divs = soup.find_all('div', class_='property')
+            try:
+                cursor.execute(sql, (id, tipNekretnine, tipPonude, grad, opstina, kvadratura, 
+                                     godinaIzgradnje, povrsinaZemljista, spratnost, uknjizenost, 
+                                     tipGrejanja, ukupanBrojSoba, ukupnoKupatila, 
+                                     parking, dodatneKarakteristike))
 
-    for property_div in property_divs:
-        # ovde izvlacimo informacije o svakoj nekretnini i cuvamo ih u bazi
-        # primer:
-        title = property_div.find('h2').text
-        price = property_div.find('span', class_='price').text
+                db.commit()
+            except Exception as e:
+                print(f"Greska prilikom ubacivanja podataka u bazu: {str(e)}")
+                db.rollback()
 
-        # cuvamo informacije u bazi podataka
-        
+# Glavna funkcija za pretragu
+def search_nekretnine():
+    base_url = 'https://www.nekretnine.rs/'
+    num_pages = 10  # Broj stranica koje želimo da pretražimo
 
- 
-# poretanje indeksiranja       
-def run_crawler():
-    url = 'https://www.nekretnine.rs/'
-    html_content = crawl_page(url)
-    parse_page(html_content)
+    for page in range(1, num_pages + 1):
+        url = f'{base_url}?page={page}'
+        crawl_page(url)
 
+    print("Pretraga je završena.")
 
-# dodajemo poziv fje kako bismo pokrenuli indekser prilikom izvrsavanja
-if __name__ == '__main__':
-    run_crawler()
+# Pokretanje pretrage
+search_nekretnine()
+
+# Zatvaranje veze s bazom podataka
+db.close()
