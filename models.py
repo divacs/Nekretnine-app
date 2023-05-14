@@ -45,7 +45,7 @@ class Nekretnina(db.Model):
         self.ukupnoKupatila = ukupnoKupatila
         self.parking = parking
         
-
+# serialize() u klasi se koristi za pretvaranje objekta nekretnine u JSON format
     def serialize(self):
         return {
         'idNekretnine': self.idNekretnine,
