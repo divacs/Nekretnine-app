@@ -1,15 +1,7 @@
-import pymysql
-pymysql.install_as_MySQLdb()
-
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
 from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:sonja123@localhost/db_nekretnine' 
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-db = SQLAlchemy(app)
+db = SQLAlchemy()
 
 class Nekretnina(db.Model):
     id = db.Column(db.Integer, primary_key = True)
@@ -116,5 +108,6 @@ def _validate_parking(self, parking):
             return parking
         else:
             raise ValueError(f"Neispravna parking vrednost. Ispravne vrednosti su {', '.join(valid_values)}")
-        
-migrate = Migrate(app, db)
+
+def initialize_db(app):
+    db.init_app(app)

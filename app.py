@@ -1,11 +1,13 @@
 from flask import Flask, request, jsonify
-from flask_sqlalchemy import SQLAlchemy
-from models import Nekretnina
+from flask_migrate import Migrate
+from models import db, Nekretnina, initialize_db
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///nekretnine.db'  # treba da promenim na odgovarajući URL za MySQL ili PostgreSQL
-db = SQLAlchemy(app)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:sonja123@localhost/db_nekretnine' 
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+initialize_db(app)
+migrate = Migrate(app, db)
 
 # /nekretnine/<int:id> - GET metoda za dohvatanje nekretnine po ID-u.
 @app.route('/nekretnine/<int:id>', methods=['GET'])
