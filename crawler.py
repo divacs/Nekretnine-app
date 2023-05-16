@@ -46,7 +46,8 @@ def crawl_page(url):
 
             try:
                 cursor.execute(sql, (id, tipNekretnine, tipPonude, grad, opstina, kvadratura, 
-                                     godinaIzgradnje, povrsinaZemljista, spratnost, uknjizenost, 
+                                     godinaIzgradnje, povrsinaZemljista,
+                                                                          spratnost, uknjizenost, 
                                      tipGrejanja, ukupanBrojSoba, ukupnoKupatila, 
                                      parking, dodatneKarakteristike))
 
@@ -71,3 +72,4 @@ search_nekretnine()
 
 # Zatvaranje veze s bazom podataka
 db.close()
+
