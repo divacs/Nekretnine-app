@@ -1,0 +1,80 @@
+-->>  crawler.py:
+- Ovaj kod predstavlja web indekser (web crawler) koji prikuplja informacije o nekretninama koje se 
+izdaju ili prodaju u Srbiji. Koristi biblioteke requests i BeautifulSoup za preuzimanje sadržaja 
+web stranica i parsiranje HTML-a. Takođe, koristi biblioteku pymysql za povezivanje s MySQL bazom 
+podataka.
+
+- U funkciji crawl_page(url) se prikupljaju informacije o nekretninama sa zadate stranice. 
+Pretraga se vrši pronalaženjem odgovarajućih elemenata HTML-a pomoću biblioteke BeautifulSoup. 
+Nakon što se prikupe informacije, podaci se ubacuju u bazu podataka kroz SQL upit.
+
+- Glavna funkcija search_nekretnine() prolazi kroz zadati broj stranica na sajtu www.nekretnine.rs 
+i poziva funkciju crawl_page(url) za svaku stranicu.
+
+- Na kraju, veza s bazom podataka se zatvara.
+--------------------------------------------------------------------------------------------------------------------------------
+-->>  models.py:
+- Ovaj kod je deo aplikacije koja koristi Flask i SQLAlchemy biblioteke za rad s bazom podataka. 
+Evo objašnjenja ključnih delova koda:
+
+1. Uvezani moduli:
+Flask: Glavni modul Flask frameworka za izgradnju web aplikacija.
+flask_sqlalchemy: Modul koji pruža integraciju SQLAlchemy ORM (Object-Relational Mapping) sa Flaskom.
+
+2. db = SQLAlchemy(): Ova linija koda inicijalizuje SQLAlchemy objekat koji će se koristiti za komunikaciju 
+sa bazom podataka.
+
+3. class Nekretnina(db.Model): Ovo je definicija modela podataka za entitet "Nekretnina". 
+Klasa Nekretnina nasleđuje db.Model klasu iz SQLAlchemy paketa, čime se uspostavlja veza između modela i 
+baze podataka. Svaki atribut klase Nekretnina predstavlja kolonu u tabeli "Nekretnina" u bazi podataka. 
+Tipovi podataka za kolone su određeni tipovima SQLAlchemy kolona (db.Column).
+
+4. def __init__(self, ...): Ovo je konstruktor klase Nekretnina koji inicijalizuje objekat klase sa 
+zadatim vrednostima atributa. Ovde se takođe vrši validacija nekih atributa kroz privatne metode 
+_validate_... kako bi se osigurala ispravnost podataka.
+
+5. def serialize(self): Ova metoda pretvara objekat klase Nekretnina u rečnik (dictionary) koji se 
+može lako pretvoriti u JSON format. Ovo je korisno za prikazivanje podataka u JSON formatu u web 
+aplikaciji.
+
+6. Metoda _validate_...: Ove metode se koriste za validaciju određenih atributa pre nego što se postave 
+na odgovarajuće vrednosti. Ako se vrednost atributa ne poklapa sa očekivanim vrednostima, javlja se 
+izuzetak.
+
+7. initialize_db(app): Ova funkcija inicijalizuje SQLAlchemy objekat db za korišćenje u Flask aplikaciji. 
+Prima Flask aplikaciju kao argument i povezuje SQLAlchemy objekat sa aplikacijom.
+
+- Ovaj kod definiše model podataka Nekretnina i omogućava komunikaciju sa bazom podataka kroz SQLAlchemy. 
+--------------------------------------------------------------------------------------------------------------------------------
+-->>  app.py:
+Ovaj kod je primer jednostavne Flask aplikacije za upravljanje nekretninama. 
+Evo kratak pregled funkcionalnosti i koraka u kodu:
+
+1. Uvezene su potrebne biblioteke i moduli: Flask, request, jsonify, flask_migrate, db (iz models.py) 
+i initialize_db (iz models.py).
+
+2. Inicijalizovana je Flask aplikacija.
+
+3. Konfiguracija baze podataka: Postavljanje URI-ja baze podataka i onemogućavanje praćenja promena u 
+bazi podataka.
+
+4. Inicijalizacija baze podataka pomoću funkcije initialize_db.
+
+5. Kreiranje objekta migrate za migraciju baze podataka.
+
+6. Definisane su rute aplikacije:
+    - GET metoda na ruti /nekretnine/<int:id>: Dohvaća nekretninu po ID-u iz baze podataka i vraća je kao 
+    JSON odgovor.
+
+    - GET metoda na ruti /nekretnine: Pretražuje nekretnine na osnovu parametara (tip, min_kvadratura, 
+    max_kvadratura, parking) i vraća rezultate kao JSON odgovor.
+
+    - POST metoda na ruti /nekretnine: Pravi novu nekretninu na osnovu podataka poslatih u zahtevu 
+    (tipNekretnine, tipPonude, itd.) i ubacuje je u bazu podataka.
+
+    - PUT metoda na ruti /nekretnine/int:id: Ažurira podatke postojeće nekretnine s određenim ID-om na 
+    osnovu podataka poslanih u zahtjevu.
+
+- Ovaj kod omogućuje osnovne CRUD (Create, Read, Update, Delete) operacije nad entitetom nekretnina 
+pomoću HTTP metoda i ruta definisanih u Flask aplikaciji. Takođe koristi SQLAlchemy za upravljanje baze 
+podataka i migracije.
