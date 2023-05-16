@@ -16,7 +16,7 @@ def get_nekretnina(id):
     if nekretnina:
         return jsonify(nekretnina.serialize())
     else:
-        return jsonify({'message': 'Nekretnina nije pronadjena'}), 404
+        return jsonify({'message': 'Nekretnina nije pronađena'}), 404
 
 # /nekretnine - GET metoda za pretraživanje nekretnina na osnovu zadatih parametara.
 @app.route('/nekretnine', methods=['GET'])
@@ -84,7 +84,7 @@ def create_nekretnina():
     db.session.add(nekretnina)
     db.session.commit()
 
-    return jsonify({'message': 'Nekretnina je uspesno kreirana'}), 201
+    return jsonify({'message': 'Nekretnina je uspešno kreirana'}), 201
 
 # /nekretnine/<int:id> - PUT metoda za ažuriranje podataka nekretnine po ID-u.
 @app.route('/nekretnine/int:id', methods=['PUT'])
@@ -110,7 +110,7 @@ def update_nekretnina(id):
 
     db.session.commit()
 
-    return jsonify({'message': 'Nekretnina updated successfully'})
+    return jsonify({'message': 'Nekretnina je uspešno ažurirana'})
     
 if __name__ == '__main__':
     app.run()

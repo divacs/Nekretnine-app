@@ -63,7 +63,7 @@ bazi podataka.
 5. Kreiranje objekta migrate za migraciju baze podataka.
 
 6. Definisane su rute aplikacije:
-    - GET metoda na ruti /nekretnine/<int:id>: Dohvaća nekretninu po ID-u iz baze podataka i vraća je kao 
+    - GET metoda na ruti /nekretnine/<int:id>: Dohvata nekretninu po ID-u iz baze podataka i vraća je kao 
     JSON odgovor.
 
     - GET metoda na ruti /nekretnine: Pretražuje nekretnine na osnovu parametara (tip, min_kvadratura, 
