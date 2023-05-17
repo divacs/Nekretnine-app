@@ -29,7 +29,9 @@ def crawl_page(url):
             grad_opstina = input_element.get('value', "").split(', ')
             grad = grad_opstina[0] if len(grad_opstina) > 0 else ""
             opstina = grad_opstina[1] if len(grad_opstina) > 1 else ""
-            kvadratura = link.find('span', class_='kvadratura').text.strip()
+            # Pronalaženje elementa <input> za kvadraturu
+            input_element1 = link.find('input', class_='form-control adv-search-form-input-area-gte')
+            kvadratura = input_element1.get('placeholder', "")
             godinaIzgradnje = link.find('span', class_='godina_izgradnje').text.strip()
             povrsinaZemljista = link.find('span', class_='povrsina_zemljista')
             if povrsinaZemljista:
