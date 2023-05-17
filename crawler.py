@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import pymysql
+import uuid
 
 # Povezivanje s bazom podataka
 db = pymysql.connect(host='localhost', user='root', password='sonja123', database='db_nekretnine')
@@ -17,9 +18,10 @@ def crawl_page(url):
     
     for link in links:
         href = link.get('href')
-        if href:
+        if href:            
+            # Generisanje jedinstvenog ID-a
+            id = str(uuid.uuid4())
             # Prikupljanje informacija o nekretnini
-            id = link.get('data-id')
             tipNekretnine = link.find('div', class_='text-truncate d-inline-block w-100').text.strip()
             tipPonude = link.find('label', class_='form-check-label').text.strip()
             grad = link.find('span', class_='grad').text.strip()
