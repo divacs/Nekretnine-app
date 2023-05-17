@@ -20,7 +20,7 @@ def crawl_page(url):
         if href:
             # Prikupljanje informacija o nekretnini
             id = link.get('data-id')
-            tipNekretnine = link.find('span', class_='tip_nekretnine').text.strip() # ove klase se ne zovu ovako u html kodu stranice
+            tipNekretnine = link.find('div', class_='text-truncate d-inline-block w-100').text.strip()
             tipPonude = link.find('span', class_='tip_ponude').text.strip()
             grad = link.find('span', class_='grad').text.strip()
             opstina = link.find('span', class_='opstina').text.strip()
