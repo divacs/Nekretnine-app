@@ -21,7 +21,7 @@ def crawl_page(url):
             # Prikupljanje informacija o nekretnini
             id = link.get('data-id')
             tipNekretnine = link.find('div', class_='text-truncate d-inline-block w-100').text.strip()
-            tipPonude = link.find('span', class_='tip_ponude').text.strip()
+            tipPonude = link.find('label', class_='form-check-label').text.strip()
             grad = link.find('span', class_='grad').text.strip()
             opstina = link.find('span', class_='opstina').text.strip()
             kvadratura = link.find('span', class_='kvadratura').text.strip()
