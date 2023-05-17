@@ -26,15 +26,9 @@ def crawl_page(url):
             tipPonude = link.find('label', class_='form-check-label').text.strip()
             # Pronalaženje elementa <input> za grad i opštinu
             input_element = link.find('input', class_='form-control')
-            grad = ""
-            opstina = ""
-            if input_element:
-                value = input_element.get('value')
-                if value:
-                    values = value.split(', ')
-                    if len(values) == 2:
-                        grad = values[0]
-                        opstina = values[1]
+            grad_opstina = input_element.get('value', "").split(', ')
+            grad = grad_opstina[0] if len(grad_opstina) > 0 else ""
+            opstina = grad_opstina[1] if len(grad_opstina) > 1 else ""
             kvadratura = link.find('span', class_='kvadratura').text.strip()
             godinaIzgradnje = link.find('span', class_='godina_izgradnje').text.strip()
             povrsinaZemljista = link.find('span', class_='povrsina_zemljista')
