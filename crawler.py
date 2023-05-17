@@ -24,11 +24,12 @@ def crawl_page(url):
             # Prikupljanje informacija o nekretnini
             tipNekretnine = link.find('div', class_='text-truncate d-inline-block w-100').text.strip()
             tipPonude = link.find('label', class_='form-check-label').text.strip()
-            # Pronalaženje elementa <input> za grad i opštinu
+            # Pronalaženje elementa <input> za grad
             input_element = link.find('input', class_='form-control')
-            grad_opstina = input_element.get('value', "").split(', ')
-            grad = grad_opstina[0] if len(grad_opstina) > 0 else ""
-            opstina = grad_opstina[1] if len(grad_opstina) > 1 else ""
+            grad = input_element.text.strip()
+            # Pronalaženje elementa <div> za opštinu
+            div_element = link.find('div', class_='form-control filter-multi-citypart-dropdown')
+            opstina = div_element.text.strip()
             # Pronalaženje elementa <input> za kvadraturu
             input_element1 = link.find('input', class_='form-control adv-search-form-input-area-gte')
             kvadratura = input_element1.get('placeholder', "")
