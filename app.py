@@ -112,5 +112,16 @@ def update_nekretnina(id):
 
     return jsonify({'message': 'Nekretnina je uspešno ažurirana'})
     
+# /nekretnine/<int:id> - DELETE metoda za brisanje nekretnine po ID-u.
+#@app.route('/nekretnine/<int:id>', methods=['DELETE'])
+#def delete_nekretnina(id):
+#    nekretnina = Nekretnina.query.get(id)
+#    if nekretnina:
+#        db.session.delete(nekretnina)
+#        db.session.commit()
+#        return jsonify({'message': 'Nekretnina je uspešno obrisana'})
+#    else:
+#        return jsonify({'message': 'Nekretnina nije pronađena'}), 404
+   
 if __name__ == '__main__':
     app.run()
