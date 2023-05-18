@@ -26,6 +26,9 @@ def search_nekretnine():
     max_kvadratura = request.args.get('max_kvadratura')
     parking = request.args.get('parking')
 
+    page = request.args.get('page', 1, type=int)  # Trenutna stranica (podrazumevana vrednost: 1)
+    per_page = request.args.get('per_page', 10, type=int)  # Broj rezultata po stranici (podrazumevana vrednost: 10)
+
     query = Nekretnina.query
 
     if tip:
@@ -40,8 +43,16 @@ def search_nekretnine():
     if parking:
         query = query.filter_by(parking=parking)
 
-    nekretnine = query.all()
-    return jsonify([nekretnina.serialize() for nekretnina in nekretnine])
+    paginated_nekretnine = query.paginate(page=page, per_page=per_page)
+
+    nekretnine = paginated_nekretnine.items
+    total_pages = paginated_nekretnine.pages
+
+    return jsonify({
+        'nekretnine': [nekretnina.serialize() for nekretnina in nekretnine],
+        'total_pages': total_pages,
+        'current_page': page
+    })
 
 # /nekretnine - POST metoda za kreiranje nove nekretnine.
 @app.route('/nekretnine', methods=['POST'])
