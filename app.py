@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from flask_migrate import Migrate
 from models import db, Nekretnina, initialize_db
 
-app = Flask(__name__)
+app = Flask(__name__)  
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:sonja123@localhost/db_nekretnine' 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
